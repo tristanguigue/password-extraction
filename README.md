@@ -106,19 +106,18 @@ The score is given by the accuracy rate of the estimator
 The parameters are estimated using k-folded cross validation and a random parameter search.
 
 ## Results
-The algorithm give a score of 93.29% on the test set using the parameters:
+The algorithm give a score of 92.15% on the test set using the parameters:
 ```
-{
-    'margin_cutoff': 0,
-    'margin_exponential_factor': 0.71968567300115194,
-    'before_exponential_factor': 2.2758459260747887,
-    'after_cutoff': 2,
-    'min_password_length': 4,
-    'eol_factor': 0.13894954943731375,
-    'after_factor': 0.37275937203149379,
-    'margin_factor': 0.01,
-    'bol_factor': 0.71968567300115172,
-    'after_exponential_factor': 0.84834289824407172,
-    'before_cutoff': 4
-}
+{'after_cutoff': 2,
+ 'after_exponential_factor': 0.774263682681127,
+ 'after_factor': 6.9519279617756053,
+ 'before_cutoff': 4,
+ 'before_exponential_factor': 1.2915496650148841,
+ 'bol_factor': 0.01,
+ 'eol_factor': 0.046415888336127774,
+ 'margin_cutoff': 1,
+ 'margin_exponential_factor': 10.0,
+ 'margin_factor': 0.016681005372000592,
+ 'min_password_length': 4
+ }
 ```
