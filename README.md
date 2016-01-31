@@ -1,7 +1,7 @@
 # Password Extraction
-This is a script to extract password out of natural language inputs and in particular foursquare comments. It has been tested for passwords in the English language, it is not language dependent but it will be less efficient to process multi-lingual input.
+This is a script to extract password out of natural language using foursquare comments as input. It has been tested for passwords in the English but is not language dependent.
 
-It uses the occurences of words located before and after the password themselves to guess which word has the highest probability to be a password in the sentence.
+It uses the occurences of words located before and after the password themselves to guess which word has the highest probability to be a password in the given sentence.
 
 ## Training
 The training set is used to build dictionaries of words that occurs at a given position before and after the password.

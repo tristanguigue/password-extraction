@@ -22,7 +22,7 @@ class PasswordEstimator(BaseEstimator):
 
     Args:
         word_dicts_before: this is the dictionary of words found before the password ordered by 
-            their distance, for example:
+            their distance to the password, for example:
         [
             // words found at distand d = 1 from the password
             {
@@ -40,7 +40,7 @@ class PasswordEstimator(BaseEstimator):
             }
         ]
         word_dicts_after: this is the dictionary of words found after the password ordered by 
-            their distance
+            their distance to the password
         before_cutoff: number of words to take into account before the passwords
         after_cutoff: number of words to take into account after the passwords
         before_exponential_factor: the exponentional factor that will give the ponderation of
@@ -302,7 +302,6 @@ class PasswordEstimator(BaseEstimator):
 
         return pd.Series(y, index=X.index)
 
-DEBUG = 356
 
 def main():
     logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
