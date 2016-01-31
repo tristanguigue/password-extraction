@@ -157,8 +157,8 @@ class PasswordEstimator(BaseEstimator):
             X: the training set containing the tips
             y: the list of passwords matching the tips
         """
-        self.word_dicts_before = [{} for _ in range(0, self.before_cutoff)]
-        self.word_dicts_after = [{} for _ in range(0, self.after_cutoff)]
+        self.word_dicts_before = [{} for _ in range(0, self.before_cutoff + self.margin_cutoff)]
+        self.word_dicts_after = [{} for _ in range(0, self.after_cutoff + self.margin_cutoff)]
 
         for i, tip in X.iteritems():
             try:
@@ -169,9 +169,9 @@ class PasswordEstimator(BaseEstimator):
             _, words_before = self.get_words(tip_before, reverse=True, bol=True)
             _, words_after = self.get_words(tip_after, eol=True)
             self.word_dicts_before = self.add_words(
-                words_before, self.word_dicts_before, self.before_cutoff)
+                words_before, self.word_dicts_before, self.before_cutoff + self.margin_cutoff)
             self.word_dicts_after = self.add_words(
-                words_after, self.word_dicts_after, self.after_cutoff)
+                words_after, self.word_dicts_after, self.after_cutoff + self.margin_cutoff)
 
         self.word_dicts_before = self.normalize(self.word_dicts_before)
         self.word_dicts_after = self.normalize(self.word_dicts_after)
@@ -228,24 +228,25 @@ class PasswordEstimator(BaseEstimator):
         for i in range(0, max_words):
             word = None
             word_dict = word_dicts[i]
+            word_score = 0
+
             if i < len(words):
                 word = words[i]
 
-            if word not in word_dict:
-                continue
+            if word in word_dict:
+                word_score += word_dict[word]
 
-            word_score = word_dict[word]
 
             # margin right
             left_border = i + 1
-            right_border = min(i + 1 + self.margin_cutoff, max_words)
             score_right_margin = self.get_score_margin(left_border, right_border, word, i, word_dicts)
+            right_border = i + 1 + self.margin_cutoff
             word_score += score_right_margin * self.margin_factor
 
             # margin left
-            left_border = max(i - 1 - self.margin_cutoff, 0)
-            right_border = i - 1
             score_left_margin = self.get_score_margin(left_border, right_border, word, i, word_dicts)
+            left_border = max(i - self.margin_cutoff, 0)
+            right_border = i
             word_score += score_left_margin * self.margin_factor
 
             word_score *= self.ponderate(exponential_factor, i)
