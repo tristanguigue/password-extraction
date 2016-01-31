@@ -189,7 +189,7 @@ class PasswordEstimator(BaseEstimator):
         """
         return np.exp(-1 * exponential_factor * distance)
 
-    def get_score_margin(self, left_border, right_border, word, index, word_dicts, idx):
+    def get_score_margin(self, left_border, right_border, word, index, word_dicts):
         """Calculate the score given by the left or right margin of the word
 
         Args:
@@ -210,7 +210,7 @@ class PasswordEstimator(BaseEstimator):
                     self.margin_exponential_factor, distance)
         return score
 
-    def get_score(self, words, word_dicts, max_words, exponential_factor, idx):
+    def get_score(self, words, word_dicts, max_words, exponential_factor):
         """Calculate the likeliness that a potential word is a password based on the list of words
             after or before the password
 
@@ -239,13 +239,13 @@ class PasswordEstimator(BaseEstimator):
             # margin right
             left_border = i + 1
             right_border = min(i + 1 + self.margin_cutoff, max_words)
-            score_right_margin = self.get_score_margin(left_border, right_border, word, i, word_dicts, idx)
+            score_right_margin = self.get_score_margin(left_border, right_border, word, i, word_dicts)
             word_score += score_right_margin * self.margin_factor
 
             # margin left
             left_border = max(i - 1 - self.margin_cutoff, 0)
             right_border = i - 1
-            score_left_margin = self.get_score_margin(left_border, right_border, word, i, word_dicts, idx)
+            score_left_margin = self.get_score_margin(left_border, right_border, word, i, word_dicts)
             word_score += score_left_margin * self.margin_factor
 
             word_score *= self.ponderate(exponential_factor, i)
@@ -287,10 +287,10 @@ class PasswordEstimator(BaseEstimator):
                 words_after = words[i + 1:]
                 score_before = self.get_score(
                     words_before, self.word_dicts_before, self.before_cutoff,
-                    self.before_exponential_factor, idx)
+                    self.before_exponential_factor)
                 score_after = self.get_score(
                     words_after, self.word_dicts_after, self.after_cutoff,
-                    self.after_exponential_factor, idx)
+                    self.after_exponential_factor)
                 score = score_before + score_after * self.after_factor
 
                 if score > best_score:
