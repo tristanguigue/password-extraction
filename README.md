@@ -1,10 +1,10 @@
 # Password Extraction
-This is a script to extract password out of natural language using foursquare comments as input. It has been tested for passwords in the English but is not language dependent.
+This is a script to extract password out of natural language using foursquare comments as input. It has been tested for passwords in English but is not language dependent.
 
-It uses the occurences of words located before and after the password themselves to guess which word has the highest probability to be a password in the given sentence.
+The model evaluates which word has the highest probability to be a password in a given sentence based on the popularity of words coming before and after the password.
 
 ## Training
-The training set is used to build dictionaries of words that occurs at a given position before and after the password.
+The training set is used to build dictionaries of words' popularity at a given position before and after the password.
 - The password is identified in the tip
 - The tip is split into the part precending and succeeding the password
 
@@ -83,13 +83,13 @@ The prediction is done by evaluating for every word the likeliness of it being a
 ```
     score_guess = score_before + score_after * self.factor_after
 ```
-- For every word in the array we add the normalized occurence of the word in the dictionary at that position. We multiply this socre by a factor depending on the distance of the work to the password.
+- For every word in the array we add its popularity at that position. We multiply this score by a factor depending on the distance of the word to the password.
 ```
     scoring_word = 'password'
     position = 1 # index is 1 so distance is 2
     score_word = words_before_password[position][scoring_word] * self.ponderate(self.exponential_factor, position)
 ```
-- We also add the score given by the occurence of that  word in the dictionary on both sides of the given position. This gives us the chance to give value to a word that is very frequent at a different position with respect to the password then it is in the evaluated sentence.
+- We also add the score given by the popularity of the word on both sides of the given position. This gives us the chance to give value to a word that is very popular at a different position with respect to the password than it is in the evaluated sentence.
 ```
     scoring_word = 'password'
     position = 1
@@ -100,13 +100,13 @@ The prediction is done by evaluating for every word the likeliness of it being a
 ```
 
 ## Scoring
-The score is given by the accuracy rate of the estimator
+The score is given by the accuracy rate of the estimator.
 
 ## Parameters estimators and cross validation
 The parameters are estimated using k-folded cross validation and a random parameter search.
 
 ## Results
-The algorithm give a score of 92.15% on the test set using the parameters:
+The algorithm give a score of 92.15% on the test set with the parameters:
 ```
 {'after_cutoff': 2,
  'after_exponential_factor': 0.774263682681127,
