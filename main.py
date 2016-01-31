@@ -239,14 +239,14 @@ class PasswordEstimator(BaseEstimator):
 
             # margin right
             left_border = i + 1
-            score_right_margin = self.get_score_margin(left_border, right_border, word, i, word_dicts)
             right_border = i + 1 + self.margin_cutoff
+            score_right_margin = self.get_score_margin(left_border, right_border, word, i, word_dicts)
             word_score += score_right_margin * self.margin_factor
 
             # margin left
-            score_left_margin = self.get_score_margin(left_border, right_border, word, i, word_dicts)
             left_border = max(i - self.margin_cutoff, 0)
             right_border = i
+            score_left_margin = self.get_score_margin(left_border, right_border, word, i, word_dicts)
             word_score += score_left_margin * self.margin_factor
 
             word_score *= self.ponderate(exponential_factor, i)
