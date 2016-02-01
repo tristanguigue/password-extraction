@@ -6,7 +6,7 @@ The model evaluates which word has the highest probability to be a password in a
 ## Training
 The training set is used to build dictionaries of words' popularity at a given position before and after the password.
 - The password is identified in the tip
-- The tip is split into the part precending and succeeding the password
+- The tip is split into the part preceding and succeeding the password
 
 Example:
 ```
@@ -37,7 +37,7 @@ Example:
 Example of dictionary:
 ```
 words_before_password = [
-    # words found at distand d = 1 from the password
+    # popularity of words found at distance d = 1 from the password
     {
         ':': 1,
         'password': 0.4,
@@ -45,7 +45,7 @@ words_before_password = [
         'saxophone': 0.000001,
         ...
     },
-    # words found at distand d = 2 from the password
+    # words found at distance d = 2 from the password
     {
         ':': 0.3,
         'password': 1,
@@ -57,7 +57,7 @@ words_before_password = [
 ]
 
 words_after_password = [
-    # words found at distand d = 1 from the password
+    # words found at distance d = 1 from the password
     {
         '_eol_': 1,
         'wifi': 0.4,
@@ -95,7 +95,7 @@ The prediction is done by evaluating for every word the likeliness of it being a
 ```
     scoring_word = 'password'
     position = 1
-    position_shift = -1 # we're looking at the 'left' site of the word 
+    position_shift = -1 # we're looking at the 'left' side of the word 
     score_word += words_before_password[position + position_shift][scoring_word] \
                     * factor(position) \
                     * margin_factor(position_shift)

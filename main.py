@@ -24,19 +24,19 @@ class PasswordEstimator(BaseEstimator):
         word_dicts_before: this is the dictionary of words found before the password ordered by 
             their distance to the password, for example:
         [
-            // words found at distand d = 1 from the password
+            // words found at distance d = 1 from the password
             {
                 ':': 1,
                 'password': 0.4,
                 'coffee': 0.1,
                 'saxophone': 0.000001
             },
-            // words found at distand d = 2 from the password
+            // words found at distance d = 2 from the password
             {
                 ':': 0.3,
                 'password': 1,
                 'wifi': 0.7
-                'saxophone': 0.0000001
+                'spoon': 0.0000001
             }
         ]
         word_dicts_after: this is the dictionary of words found after the password ordered by 
@@ -44,19 +44,21 @@ class PasswordEstimator(BaseEstimator):
         before_cutoff: number of words to take into account before the passwords
         after_cutoff: number of words to take into account after the passwords
         before_exponential_factor: the exponentional factor that will give the ponderation of
-            words before the password
+            words before the password according to their distance to the password
         after_exponential_factor: the exponentional factor that will give the ponderation of
-            words after the password
+            words after the password according to their distance to the password
         after_factor: the factor to which words after the password account in comparison with
             words before the password
         min_password_length: the number of character minimum for a word to be considered as a
             password
-        margin_cutoff: we can look not only at the frequency of the word at that distance of the
-            password but also see the match we get if we move the word to the left or right
+        margin_cutoff: we add the score given by the popularity of the word on both sides of 
+            the given position up to margin_cutoff
         margin_factor: the ponderation of the match on the margin of the word found
-        eol_factor: the ponderation to give to newline
+        margin_exponential_factor: the exponentional factor that will give the ponderation of
+            words according to their distance to the current position
+        eol_factor: the ponderation to give to end of lines
+        bol_factor: the ponderation to give to beginning of lines
     """
-
     def __init__(
             self, before_cutoff=10, after_cutoff=10, before_exponential_factor=1,
             after_exponential_factor=1, after_factor=0.5, min_password_length=4, margin_cutoff=10,
@@ -95,7 +97,7 @@ class PasswordEstimator(BaseEstimator):
         return word_dicts
 
     def normalize(self, word_dicts):
-        """Normalize the words found
+        """Normalize the word occurences
 
         Args:
             word_dicts: the word dictionaries to be normalized
