@@ -139,7 +139,9 @@ class PasswordEstimator(BaseEstimator):
         words_case_sensitive = []
         if bol:
             words_case_sensitive += [BOL_TAG]
-        words_case_sensitive += re.findall(r"[\w\/\\#$%@^_+*<=>&-]+|[.,!?;:]", tip)
+        matches = re.findall(r'"(.+?)"|\'(\S+?)\'|([\w\/\\#$%@^_+*\'<=>&-]+)|([.,!?;:])', tip)
+        for match in matches:
+            words_case_sensitive += [x.strip() for x in match if x]
         if eol:
             words_case_sensitive += [EOL_TAG]
 

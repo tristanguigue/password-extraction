@@ -18,7 +18,9 @@ Example:
 ```
 - Words are extracted for both parts and ordered by distance to the password.  Each tip is split into constituent words with the following considerations:
     - The ponctuation is considered as their own word.
-    - The quotes are ignored.
+    - Anything between double quotes is considered as a single word
+    - Anything between single quotes that do not contain space is considered as a single word
+    - Single quotes are otherwise considered part of other words
     - Other ASCII characters are considered as part of other words if not separated by spaces.
 
 The beginning and end of line is added to the list.
