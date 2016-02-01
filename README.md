@@ -22,8 +22,8 @@ Example:
     - Anything between single quotes that do not contain space is considered as a single word
     - Single quotes are otherwise considered part of other words
     - Other ASCII characters are considered as part of other words if not separated by spaces.
+    - The beginning and end of line is added to the list.
 
-The beginning and end of line is added to the list.
 Example:
 ```
     words_before = get_words('The password is ', reverse=True, bol=True)
@@ -108,18 +108,23 @@ The score is given by the accuracy rate of the estimator.
 The parameters are estimated using k-folded cross validation and a random parameter search.
 
 ## Results
-The algorithm give a score of 92.15% on the test set with the parameters:
+The algorithm give a score of 93.58% on the test set with the parameters:
 ```
-{'after_cutoff': 2,
- 'after_exponential_factor': 0.774263682681127,
- 'after_factor': 6.9519279617756053,
- 'before_cutoff': 4,
+{
+ 'after_cutoff': 5,
+ 'after_exponential_factor': 2.1544346900318834,
+ 'after_factor': 0.088586679041008226,
+ 'before_cutoff': 2,
  'before_exponential_factor': 1.2915496650148841,
- 'bol_factor': 0.01,
- 'eol_factor': 0.046415888336127774,
+ 'bol_factor': 0.016681005372000592,
+ 'eol_factor': 1.0,
  'margin_cutoff': 1,
- 'margin_exponential_factor': 10.0,
- 'margin_factor': 0.016681005372000592,
+ 'margin_exponential_factor': 0.10000000000000001,
+ 'margin_factor': 0.027825594022071243,
  'min_password_length': 4
- }
+}
 ```
+
+## Possible improvements
+Currently the beginning and end of line have their own parameter but not the ponctuation and quotes are entirely ignored.
+It would be possible to better represent their significance by ponderating them individually.
